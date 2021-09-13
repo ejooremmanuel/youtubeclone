@@ -286,26 +286,20 @@ span {
     background: #fff;
     border-radius: 0 20px 20px 0;
     box-shadow: 8px 10px 30px rgba(0, 0, 0, 0.2);
-    padding-left: 1.3em;
-    padding-right: 1.3em;
+    padding: 1em 1em;
 }
 
 .heading {
     display: flex;
     flex-direction: column;
-    align-self: start;
-    justify-content: center;
-    margin: 10px auto;
+    justify-content: start;
+    justify-items: start;
+    margin-top: 10px;
+    align-items: start;
 }
 
 .heading h1 {
-    width: 90%;
-    margin: 10px auto;
-}
-
-.heading h3 {
-    margin: 0 auto;
-    width: 90%;
+    margin-top: 10px;
 }
 
 .heading>h3 a {
@@ -369,11 +363,6 @@ form input[type="submit"] {
 
 ::placeholder {
     font-size: 16px;
-}
-
-.rem-me {
-    display: flex;
-    flex-direction: row;
 }
 
 .forgot {
