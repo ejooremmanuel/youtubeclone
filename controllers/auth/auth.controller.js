@@ -50,7 +50,8 @@ module.exports = {
             req.flash('error-message', 'An error occured while creating your account.');
             return res.redirect('back')
         })
-        await verifyEmail(req, email, username, secretToken)
+
+        verifyEmail(req, email, username, secretToken);
 
 
 

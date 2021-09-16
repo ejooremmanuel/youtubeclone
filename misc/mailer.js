@@ -23,12 +23,10 @@ const transport = nodemailer.createTransport({
 // });
 
 function sendEmail(from, to, subject, html) {
-    return new promise((resolve, reject) => {
-        transport.sendMail({ from, subject, to, html }, (err, info) => {
-            if (err) reject(err);
-            resolve(info);
-        });
-    });
+
+    transport.sendMail({ from, to, subject, html })
+        .then((info) => { console.log(info) })
+        .catch((err) => { console.log(err) })
 }
 
 module.exports = sendEmail;
