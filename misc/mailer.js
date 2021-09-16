@@ -1,11 +1,34 @@
 const nodemailer = require('nodemailer');
 const transport = nodemailer.createTransport({
-    service: '',
+    service: 'Gmail',
     auth: {
-        pass: '',
-        user: ''
+        pass: 'ejoor@2021',
+        user: 'ejooremmanuel@gmail.com'
     },
     tls: {
         rejectUnauthorized: false,
     }
 })
+
+// const transporter = nodemailer.createTransport({
+//     host: 'smtp.ethereal.email',
+//     port: 587,
+//     auth: {
+//         user: 'hilda.miller84@ethereal.email',
+//         pass: 'EAWKQKJber9NebZzvQ'
+//     },
+//     tls: {
+//         rejectUnauthorized: false
+//     }
+// });
+
+function sendEmail(from, to, subject, html) {
+    return new promise((resolve, reject) => {
+        transport.sendMail({ from, subject, to, html }, (err, info) => {
+            if (err) reject(err);
+            resolve(info);
+        });
+    });
+}
+
+module.exports = sendEmail;

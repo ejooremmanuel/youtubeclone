@@ -1,7 +1,9 @@
 const bcrypt = require('bcryptjs');
+const verifyEmail = require('../../utils/verifyemail')
 const User = require('../../models/user')
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy
+const randomstring = require('randomstring');
 
 module.exports = {
     signup: async(req, res) => {
@@ -32,21 +34,25 @@ module.exports = {
         }
 
         const salt = await bcrypt.genSalt();
-        const hashedPassword = await bcrypt.hash(password, salt)
+        const hashedPassword = await bcrypt.hash(password, salt);
+        const secretToken = randomstring.generate()
 
         const newUser = await new User({
             email,
             username,
-            password: hashedPassword
+            password: hashedPassword,
+            secretToken
         })
-
-        newUser.save().then(() => {
-            req.flash('success-message', 'Registration Successful! You can now Log in.');
+        await newUser.save().then(() => {
+            req.flash('success-message', 'Registration Successful! Please go to your mailbox to verify your email address.');
             return res.redirect('/auth/login')
         }).catch(() => {
             req.flash('error-message', 'An error occured while creating your account.');
             return res.redirect('back')
         })
+        await verifyEmail(req, email, username, secretToken)
+
+
 
     },
     login: async(req, res) => {

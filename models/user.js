@@ -11,6 +11,13 @@ const userSchema = new Schema({
     password: {
         type: 'string',
     },
+    secretToken: {
+        type: 'string',
+    },
+    verified: {
+        type: Boolean,
+        default: false
+    },
     videos: [{
         type: mongoose.Types.ObjectId,
         ref: 'video'
