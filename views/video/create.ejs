@@ -1,0 +1,29 @@
+<%- include('../partials/header') -%>
+    <div class="container-form">
+        <%- include('../messages') -%>
+            <h2 class="head-center">Upload a video</h2>
+            <form action="/video/create" method="post" enctype="multipart/form-data">
+                <!-- <label for="username">Username</label>
+                <input type="text" name="username" id="username" placeholder="Type your username" required> -->
+                <label for="videotitle">Video Title</label>
+                <input type="text" name="title" id="" placeholder="Video Title" required>
+
+                <label for="image">Choose Video Image</label>
+                <input type="file" accept="image/*" name="image" id="image" required>
+
+                <label for="video">Choose Video</label>
+                <input type="file" accept="video/*" name="video" id="video" required>
+
+                <label for="desc">Description</label>
+                <textarea name="description" cols="60" rows="10" resizable="false"></textarea>
+
+
+                <button type="submit" class="btn btn-primary">Upload Video</button>
+            </form>
+            <!-- <div class="heading">
+                <p>Not Registered? <a href="/auth/signup">Register</a></p>
+                <p>Forgot password?</p>
+                <a href="/auth/reset">Reset Password.</a>
+            </div> -->
+    </div>
+    <%- include('../partials/footer') -%>

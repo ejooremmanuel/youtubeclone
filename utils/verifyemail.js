@@ -8,7 +8,7 @@ Hello ${username},
 <br/>
 <br/>
 Thank you for registering an account with us at WAAWtube.
-Click the link below or copy to any browser to verify your acount.
+Click the link below or copy to any browser to verify your account.
 <br/>
 <br/>
 
@@ -22,9 +22,10 @@ Kind regards,
 
 `
     sendEmail(
-        'ejooremmanuel@gmail.com',
+        'Waaw Tube',
         email,
         "Please verify your account",
+        "high",
         html
     )
 }

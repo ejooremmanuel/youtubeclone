@@ -1,9 +1,39 @@
 const bcrypt = require('bcryptjs');
-const verifyEmail = require('../../utils/verifyemail')
-const User = require('../../models/user')
+const verifyEmail = require('../../utils/verifyemail');
+const User = require('../../models/user');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy
 const randomstring = require('randomstring');
+
+
+passport.use(new LocalStrategy({ usernameField: 'email', passReqToCallback: true }, async(req, email, password, done) => {
+    await User.findOne({ $or: [{ email }, { username: email }] })
+        .then(async(user) => {
+            if (!user) {
+                return done(null, false, req.flash('error-message', 'User does not exist. Please use a different one.'));
+            }
+            bcrypt.compare(password, user.password, (err, passwordMatch) => {
+                if (err) {
+                    return err;
+                }
+                if (!passwordMatch) return done(null, false, req.flash('error-message', 'Wrong pasword. Please check your password and try again.'));
+
+                return done(null, user, req.flash('success-message', 'Login Successful.'));
+            });
+        })
+}));
+
+passport.serializeUser((user, done) => {
+    return done(null, user.id)
+})
+
+passport.deserializeUser((id, done) => {
+    User.findById(id, (err, user) => {
+
+        return done(err, user);
+    })
+})
+
 
 module.exports = {
     signup: async(req, res) => {
@@ -51,7 +81,8 @@ module.exports = {
             return res.redirect('back')
         })
 
-        verifyEmail(req, email, username, secretToken);
+        const mailSent = verifyEmail(req, email, username, secretToken);
+        console.log(mailSent);
 
 
 

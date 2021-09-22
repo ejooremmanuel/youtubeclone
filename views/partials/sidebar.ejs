@@ -39,10 +39,26 @@
             <span>Liked Videos</span>
         </div>
         <hr>
-        <div class="sidebar__category">
-            <i class="material-icons">logout</i>
-            <span><a class="signoutlink" href="/auth/signout">Sign Out</a> </span>
-        </div>
+        <%if(!isAuthenticated) {%>
+            <div class="sidebar__category">
+                <i class="material-icons">person_add</i>
+                <span><a class="signoutlink" href="/auth/signup">Register</a> </span>
+            </div>
+
+            <div class="sidebar__category">
+                <i class="material-icons">login</i>
+                <span><a class="signoutlink" href="/auth/login">Login</a> </span>
+            </div>
+            <%} else { %>
+                <div class="sidebar__category">
+                    <i class="material-icons">upload</i>
+                    <span><a class="signoutlink" href="/video/create">Upload</a> </span>
+                </div>
+                <div class="sidebar__category">
+                    <i class="material-icons">logout</i>
+                    <span><a class="signoutlink" href="/auth/signout">Logout</a> </span>
+                </div>
+                <%}%>
     </div>
 
 </div>

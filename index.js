@@ -13,6 +13,7 @@ const passport = require('passport');
 const bcrypt = require('bcryptjs');
 const flash = require('connect-flash');
 const LocalStrategy = require('passport-local').Strategy;
+const createError = require('http-errors');
 
 //Configuration
 
@@ -47,34 +48,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //set up passport local strategy to authenticate log in
-passport.use(new LocalStrategy({ usernameField: 'email', passReqToCallback: true }, async(req, email, password, done) => {
-    await User.findOne({ $or: [{ email }, { username: email }] })
-        .then(async(user) => {
-            if (!user) {
-                return done(null, false, req.flash('error-message', 'User does not exist. Please use a different one.'));
-            }
-            bcrypt.compare(password, user.password, (err, passwordMatch) => {
-                if (err) {
-                    return err;
-                }
-                if (!passwordMatch) return done(null, false, req.flash('error-message', 'Wrong pasword. Please check your password and try again.'));
-
-                return done(null, user, req.flash('success-message', 'Login Successful.'));
-            });
-        })
-}));
-
-passport.serializeUser((user, done) => {
-    done(null, user.id)
-})
-
-passport.deserializeUser((id, done) => {
-    User.findById(id, (err, user) => {
-
-        done(err, user);
-    })
-})
-
 
 app.use(logger('dev'));
 app.use(flash());
@@ -85,8 +58,10 @@ app.use(globalVariables);
 //import Routes
 const defaultRoutes = require('./routes/default/default.routes');
 const authRoutes = require('./routes/auth/auth.routes');
+const videoRoutes = require('./routes/video/video.routes');
 app.use('/', defaultRoutes);
 app.use('/auth', authRoutes);
+app.use('/video', videoRoutes);
 
 
 
@@ -97,6 +72,11 @@ app.use((req, res, next) => {
     next();
 });
 
+
+// app.use(function(req, res, next) {
+//     // catch 404 and forward to error handler
+//     next(createError(404));
+// });
 
 app.listen(process.env.PORT || 3000, () => {
     console.log("Server listening on port 3000...");

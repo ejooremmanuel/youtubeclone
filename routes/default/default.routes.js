@@ -6,7 +6,7 @@ const router = express.Router();
 
 
 //Home Route
-router.get('/', isLoggedin, home)
+router.get('/', home)
 
 
 module.exports = router;
